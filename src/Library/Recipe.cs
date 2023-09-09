@@ -9,14 +9,19 @@ using System.Collections;
 
 namespace Full_GRASP_And_SOLID.Library
 {
-    public class Recipe
+    public class Recipe 
     {
         private ArrayList steps = new ArrayList();
 
         public Product FinalProduct { get; set; }
 
-        public void AddStep(Step step)
+        public ArrayList GetSteps()
         {
+            return this.steps;
+        }
+
+        public void AddStep(Step step)
+        { 
             this.steps.Add(step);
         }
 
@@ -32,6 +37,7 @@ namespace Full_GRASP_And_SOLID.Library
             {
                 Console.WriteLine($"{step.Quantity} de '{step.Input.Description}' " +
                     $"usando '{step.Equipment.Description}' durante {step.Time}");
+                Console.WriteLine($"El costo total es de ${this.recipe.productionCost}");
             }
         }
     }
