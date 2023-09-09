@@ -11,7 +11,7 @@ using Full_GRASP_And_SOLID.Library;
 
 namespace Full_GRASP_And_SOLID
 {
-    public class Program
+    public class Program 
     {
         private static ArrayList productCatalog = new ArrayList();
 
