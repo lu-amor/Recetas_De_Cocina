@@ -14,8 +14,10 @@ namespace Full_GRASP_And_SOLID
     public class Program 
     {
         private static ArrayList productCatalog = new ArrayList();
-
         private static ArrayList equipmentCatalog = new ArrayList();
+        public double productionCost = 0;
+        public double productCost = 0;
+        public double equipmentCost = 0;
 
         public static void Main(string[] args)
         {
@@ -36,6 +38,25 @@ namespace Full_GRASP_And_SOLID
 
             AddEquipmentToCatalog("Cafetera", 1000);
             AddEquipmentToCatalog("Hervidor", 2000);
+        }
+        public void ProductionCost(Recipe recipe, double productionCost)
+        {
+            this.productionCost = productionCost;
+            ArrayList recipeSteps = recipe.GetSteps();
+        }
+        public double GetProductionCost(double productionCost, double productCost, double equipmentCost, ArrayList recipeSteps)
+        {
+
+            foreach (Step step in recipeSteps)
+            {
+                productCost += GetProduct(step.Input.Description).UnitCost * step.Quantity;
+            }
+            foreach (Step step in recipeSteps)
+            {
+                equipmentCost += GetEquipment(step.Equipment.Description).HourlyCost * step.Time;
+            }
+            productionCost = productCost + equipmentCost;
+            return productionCost;
         }
 
         private static void AddProductToCatalog(string description, double unitCost)
@@ -58,16 +79,19 @@ namespace Full_GRASP_And_SOLID
             return equipmentCatalog[index] as Equipment;
         }
 
-        private static Product GetProduct(string description)
+        public static Product GetProduct(string description)
         {
             var query = from Product product in productCatalog where product.Description == description select product;
             return query.FirstOrDefault();
         }
 
-        private static Equipment GetEquipment(string description)
+        public static Equipment GetEquipment(string description)
         {
             var query = from Equipment equipment in equipmentCatalog where equipment.Description == description select equipment;
             return query.FirstOrDefault();
         }
     }
 }
+
+/* uso el patrón expert, ya que la clase program es la que conoce toda la información necesaria sobre los productos, equipamiento y
+los puede obtener fácilmente*/
